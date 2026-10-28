@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers\Dokter;
 
+use App\Exports\RiwayatPasienDokterExport;
 use App\Http\Controllers\Controller;
 use App\Models\Periksa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class RiwayatPasienController extends Controller
 {
+    public function export()
+    {
+        return Excel::download(new RiwayatPasienDokterExport, 'riwayat-pasien.xlsx');
+    }
+
     public function index()
     {
         $riwayatPasien = Periksa::whereHas('daftarPoli.jadwalPeriksa', function($query) {

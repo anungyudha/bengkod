@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers\Dokter;
 
+use App\Exports\JadwalDokterExport;
 use App\Http\Controllers\Controller;
 use App\Models\JadwalPeriksa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class JadwalPeriksaController extends Controller
 {
+    public function export()
+    {
+        return Excel::download(new JadwalDokterExport, 'jadwal-periksa.xlsx');
+    }
+
     public function index(){
         $dokter = Auth::user();
         $jadwalPeriksas = JadwalPeriksa::where('id_dokter', $dokter->id)->orderBy('hari')->get();

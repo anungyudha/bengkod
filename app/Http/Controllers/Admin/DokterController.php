@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\DokterExport;
 use App\Http\Controllers\Controller;
 use App\Models\Poli;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DokterController extends Controller
 {
+    public function export()
+    {
+        return Excel::download(new DokterExport, 'data-dokter.xlsx');
+    }
+
     public function index()
     {
         $dokters = User::where('role', 'dokter')->with('poli')->get();

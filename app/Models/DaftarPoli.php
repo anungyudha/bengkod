@@ -29,4 +29,10 @@ class DaftarPoli extends Model
     {
         return $this->hasMany(Periksa::class, 'id_daftar_poli');
     }
+
+    // Helper untuk mengambil 1 data periksa terkait
+    public function periksa()
+    {
+        return $this->hasOne(Periksa::class, 'id_daftar_poli');
+    }
 }

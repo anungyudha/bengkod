@@ -2,12 +2,19 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ObatExport;
 use App\Http\Controllers\Controller;
 use App\Models\Obat;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ObatController extends Controller
 {
+    public function export()
+    {
+        return Excel::download(new ObatExport, 'data-obat.xlsx');
+    }
+
     public function index()
     {
         $obats = Obat::all();
@@ -25,12 +32,14 @@ class ObatController extends Controller
             'nama_obat' => 'required|string',
             'kemasan' => 'required|string',
             'harga' => 'required|integer',
+            'stok' => 'nullable|integer|min:0',
         ]);
 
         Obat::create([
             'nama_obat' => $request->nama_obat,
             'kemasan' => $request->kemasan,
-            'harga' => $request->harga
+            'harga' => $request->harga,
+            'stok' => $request->stok ?? 0,
         ]);
 
         return redirect()
@@ -53,13 +62,15 @@ class ObatController extends Controller
             'nama_obat' => 'required|string',
             'kemasan' => 'nullable|string',
             'harga' => 'required|integer',
+            'stok' => 'nullable|integer|min:0',
         ]);
 
         $obat = Obat::findOrFail($id);
         $obat->update([
             'nama_obat' => $request->nama_obat,
             'kemasan' => $request->kemasan,
-            'harga' => $request->harga
+            'harga' => $request->harga,
+            'stok' => $request->stok ?? 0,
         ]);
 
         return redirect()

@@ -6,13 +6,20 @@
             Data Obat
         </h2>
 
-        <a href="{{ route('obat.create') }}" class="inline-flex items-center gap-2 px-5 py-2.5 
-                  bg-primary hover:bg-primary/90 
-                  text-white text-sm font-semibold 
-                  rounded-xl transition">
-            <i class="fas fa-plus text-xs"></i>
-            Tambah Obat
-        </a>
+        <div class="flex items-center gap-2">
+            <a href="{{ route('obat.export') }}" class="inline-flex items-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-sm font-semibold transition shadow-sm">
+                <i class="fas fa-file-excel"></i>
+                Export Excel
+            </a>
+
+            <a href="{{ route('obat.create') }}" class="inline-flex items-center gap-2 px-5 py-2.5 
+                      bg-primary hover:bg-primary/90 
+                      text-white text-sm font-semibold 
+                      rounded-xl transition">
+                <i class="fas fa-plus text-xs"></i>
+                Tambah Obat
+            </a>
+        </div>
     </div>
 
     {{-- Card --}}
@@ -28,6 +35,7 @@
                             <th class="px-6 py-4">Nama Obat</th>
                             <th class="px-6 py-4">Kemasan</th>
                             <th class="px-6 py-4">Harga</th>
+                            <th class="px-6 py-4 text-center">Stok</th>
                             <th class="px-6 py-4 text-right">Aksi</th>
                         </tr>
                     </thead>
@@ -50,6 +58,12 @@
 
                             <td class="px-6 py-4 font-semibold text-slate-800">
                                 Rp {{ number_format($obat->harga, 0, ',', '.') }}
+                            </td>
+
+                            <td class="px-6 py-4 text-center">
+                                <span class="inline-flex items-center px-2.5 py-1 text-xs font-bold rounded-full {{ ($obat->stok ?? 0) > 10 ? 'bg-blue-50 text-blue-700 border border-blue-200' : 'bg-red-50 text-red-700 border border-red-200' }}">
+                                    {{ $obat->stok ?? 0 }}
+                                </span>
                             </td>
 
                             <td class="px-6 py-4 text-right">
@@ -85,7 +99,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="4" class="text-center py-12 text-slate-400">
+                            <td colspan="5" class="text-center py-12 text-slate-400">
                                 <i class="fas fa-inbox text-3xl mb-3 block"></i>
                                 Belum ada data obat
                             </td>

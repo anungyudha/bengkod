@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\PasienExport;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class PasienController extends Controller
 {
+    public function export()
+    {
+        return Excel::download(new PasienExport, 'data-pasien.xlsx');
+    }
+
     public function index()
     {
         $pasiens = User::where('role', 'pasien')->with('poli')->get();
