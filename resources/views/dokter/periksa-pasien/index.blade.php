@@ -1,7 +1,7 @@
 <x-layouts.app title="Periksa Pasien">
 
-    {{-- Header --}}
-    <div class="flex items-center justify-between mb-6">
+    {{-- Header & Filter --}}
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
             <h2 class="text-2xl font-bold text-slate-800">
                 Periksa Pasien
@@ -10,6 +10,25 @@
                 Panggil nomor antrian pasien secara live ke dashboard pasien dan lakukan pemeriksaan medis.
             </p>
         </div>
+
+        {{-- Filter per Jadwal --}}
+        @if(isset($jadwals) && $jadwals->count() > 1)
+        <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold text-slate-500">Filter Jadwal:</span>
+            <div class="join">
+                <a href="{{ route('periksa-pasien.index') }}" 
+                   class="btn btn-sm join-item {{ empty($selectedJadwal) ? 'btn-primary' : 'btn-outline border-slate-300' }}">
+                    Semua
+                </a>
+                @foreach($jadwals as $j)
+                    <a href="{{ route('periksa-pasien.index', ['jadwal_id' => $j->id]) }}" 
+                       class="btn btn-sm join-item {{ ($selectedJadwal == $j->id) ? 'btn-primary' : 'btn-outline border-slate-300' }}">
+                        {{ $j->hari }} ({{ $j->jam_mulai }})
+                    </a>
+                @endforeach
+            </div>
+        </div>
+        @endif
     </div>
 
     {{-- Alert Flash Message --}}
@@ -32,6 +51,7 @@
                         <tr>
                             <th class="px-6 py-4">No</th>
                             <th class="px-6 py-4">Pasien</th>
+                            <th class="px-6 py-4">Jadwal Praktik</th>
                             <th class="px-6 py-4">Keluhan</th>
                             <th class="px-6 py-4 text-center">No Antrian</th>
                             <th class="px-6 py-4 text-right">Aksi</th>
@@ -51,6 +71,16 @@
                                 {{ $dp->pasien->nama }}
                                 <div class="text-[11px] text-slate-400 font-normal">
                                     RM: {{ $dp->pasien->no_rm ?? '-' }}
+                                </div>
+                            </td>
+
+                            <td class="px-6 py-4 text-slate-600">
+                                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-semibold bg-indigo-50 text-indigo-700 border border-indigo-200">
+                                    <i class="fas fa-calendar-day text-[10px]"></i>
+                                    {{ $dp->jadwalPeriksa->hari ?? '-' }}
+                                </span>
+                                <div class="text-[11px] text-slate-400 mt-0.5">
+                                    {{ $dp->jadwalPeriksa->jam_mulai ?? '' }} - {{ $dp->jadwalPeriksa->jam_selesai ?? '' }}
                                 </div>
                             </td>
 

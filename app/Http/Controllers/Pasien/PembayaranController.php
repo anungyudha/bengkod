@@ -63,7 +63,7 @@ class PembayaranController extends Controller
             'tgl_bayar' => now(),
         ]);
 
-        // Kirim notifikasi ke Dokter terkait (sesuai PDF 2.b)
+        // Kirim notifikasi ke Dokter terkait
         $dokter = $periksa->daftarPoli->jadwalPeriksa->dokter ?? null;
         if ($dokter) {
             $dokter->notify(new PembayaranDibuatNotification($periksa));

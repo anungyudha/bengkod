@@ -12,39 +12,41 @@
 
     {{-- ================= 1. BANNER ANTRIAN AKTIF ================= --}}
     @if ($antrianAktif)
-        <div id="banner-antrian-container" class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-700 via-indigo-700 to-indigo-900 text-white shadow-lg mb-8 p-6 sm:p-8 border border-indigo-400/30">
+        <div id="banner-antrian-container" 
+             style="background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #1e3a8a 100%);"
+             class="relative overflow-hidden rounded-2xl text-white shadow-xl mb-8 p-6 sm:p-8 border border-blue-400/40">
             
             {{-- Background Decors --}}
-            <div class="absolute -right-10 -bottom-10 w-60 h-60 bg-white/5 rounded-full blur-2xl pointer-events-none"></div>
-            <div class="absolute -left-10 -top-10 w-40 h-40 bg-white/5 rounded-full blur-xl pointer-events-none"></div>
+            <div class="absolute -right-10 -bottom-10 w-60 h-60 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -left-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
 
             <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                 
                 {{-- Info Antrian Pasien --}}
                 <div class="space-y-2">
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-white/20 text-white border border-white/30 backdrop-blur-sm">
+                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-white/20 text-white border border-white/30 backdrop-blur-md">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
                         ANTRIAN AKTIF ANDA
                     </span>
 
-                    <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mt-1">
+                    <h3 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mt-1 drop-shadow-sm">
                         {{ $antrianAktif->jadwalPeriksa->dokter->poli->nama_poli ?? 'Poli Umum' }}
                     </h3>
 
-                    <div class="flex flex-wrap items-center gap-3 text-indigo-100 text-sm">
-                        <span class="font-medium flex items-center gap-1.5">
-                            <i class="fas fa-user-doctor text-indigo-300"></i>
+                    <div class="flex flex-wrap items-center gap-3 text-blue-100 text-sm font-medium">
+                        <span class="flex items-center gap-1.5">
+                            <i class="fas fa-user-doctor text-blue-200"></i>
                             Dr. {{ $antrianAktif->jadwalPeriksa->dokter->nama ?? '-' }}
                         </span>
-                        <span class="text-white/40">•</span>
-                        <span class="font-medium flex items-center gap-1.5">
-                            <i class="fas fa-calendar-day text-indigo-300"></i>
+                        <span class="text-white/50">•</span>
+                        <span class="flex items-center gap-1.5">
+                            <i class="fas fa-calendar-day text-blue-200"></i>
                             {{ $antrianAktif->jadwalPeriksa->hari }} ({{ $antrianAktif->jadwalPeriksa->jam_mulai }} - {{ $antrianAktif->jadwalPeriksa->jam_selesai }})
                         </span>
                     </div>
 
                     @if ($antrianAktif->keluhan)
-                        <p class="text-xs text-indigo-200/90 pt-1">
+                        <p class="text-xs text-blue-100/90 pt-1">
                             <span class="font-semibold text-white">Keluhan:</span> {{ $antrianAktif->keluhan }}
                         </p>
                     @endif
@@ -54,29 +56,31 @@
                 <div class="flex items-center gap-3 w-full md:w-auto justify-end">
                     
                     {{-- Kotak 1: Nomor Anda --}}
-                    <div class="flex-1 md:flex-initial w-32 sm:w-36 bg-white/10 backdrop-blur-md rounded-2xl p-4 text-center border border-white/20 shadow-inner">
-                        <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-200 block mb-1">
+                    <div style="background-color: rgba(255, 255, 255, 0.18); border: 1px solid rgba(255, 255, 255, 0.35);" 
+                         class="flex-1 md:flex-initial w-32 sm:w-36 rounded-2xl p-4 text-center shadow-lg backdrop-blur-md">
+                        <span class="text-[11px] font-extrabold uppercase tracking-wider text-blue-100 block mb-1">
                             NOMOR ANDA
                         </span>
-                        <span class="text-4xl sm:text-5xl font-black text-white block">
+                        <span class="text-4xl sm:text-5xl font-black text-white block drop-shadow">
                             {{ $antrianAktif->no_antrian }}
                         </span>
                     </div>
 
                     {{-- Kotak 2: Sedang Dilayani (LIVE UPDATE) --}}
-                    <div class="flex-1 md:flex-initial w-32 sm:w-36 bg-white/20 backdrop-blur-md rounded-2xl p-4 text-center border-2 border-indigo-300 shadow-xl relative overflow-hidden">
-                        <div class="absolute top-1 right-2">
-                            <span class="relative flex h-2 w-2">
+                    <div style="background-color: #ffffff; border: 2px solid #93c5fd;" 
+                         class="flex-1 md:flex-initial w-32 sm:w-36 rounded-2xl p-4 text-center shadow-2xl relative overflow-hidden">
+                        <div class="absolute top-1.5 right-2">
+                            <span class="relative flex h-2.5 w-2.5">
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                             </span>
                         </div>
-                        <span class="text-[11px] font-bold uppercase tracking-wider text-yellow-300 block mb-1">
+                        <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block mb-1">
                             SEDANG DILAYANI
                         </span>
                         <span id="banner-antrian-sekarang" 
                               data-jadwal-id="{{ $antrianAktif->id_jadwal }}" 
-                              class="text-4xl sm:text-5xl font-black text-yellow-300 block transition-all duration-300">
+                              class="text-4xl sm:text-5xl font-black text-blue-700 block transition-all duration-300">
                             {{ ($antrianAktif->jadwalPeriksa->antrian_sekarang ?? 0) > 0 ? $antrianAktif->jadwalPeriksa->antrian_sekarang : '-' }}
                         </span>
                     </div>

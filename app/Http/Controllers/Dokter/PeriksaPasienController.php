@@ -13,18 +13,31 @@ use Illuminate\Support\Facades\Auth;
 
 class PeriksaPasienController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $dokterId = Auth::id();
+        $selectedJadwal = $request->query('jadwal_id');
 
-        $daftarPasien = DaftarPoli::with(['pasien', 'jadwalPeriksa.dokter.poli', 'periksas'])
+        // Ambil seluruh jadwal praktik milik dokter ini
+        $jadwals = \App\Models\JadwalPeriksa::where('id_dokter', $dokterId)->get();
+
+        $query = DaftarPoli::with(['pasien', 'jadwalPeriksa.dokter.poli', 'periksas'])
             ->whereHas('jadwalPeriksa', function ($query) use ($dokterId) {
                 $query->where('id_dokter', $dokterId);
-            })
+            });
+
+        // Filter per jadwal jika dipilih
+        if ($selectedJadwal) {
+            $query->where('id_jadwal', $selectedJadwal);
+        }
+
+        // Urutkan berdasarkan jadwal terlebih dahulu, baru nomor antrian
+        $daftarPasien = $query
+            ->orderBy('id_jadwal')
             ->orderBy('no_antrian')
             ->get();
 
-        return view('dokter.periksa-pasien.index', compact('daftarPasien'));
+        return view('dokter.periksa-pasien.index', compact('daftarPasien', 'jadwals', 'selectedJadwal'));
     }
 
     /**
